@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import genreids from "../Utilitty/genres"; // Genre mapping file
+import genreids from "../Utility/genres"; // Genre mapping file
 
 // Rating stars helper function
 const getRatingStars = (rating) => {
@@ -16,12 +16,14 @@ const getRatingStars = (rating) => {
 
 const WatchList = ({ watchlist, handleRemoveFromWatchlist }) => {
   const [search, setSearch] = useState("");
-  const [genrelist, SetGenreList] = useState(["All Genre"]);
+  const [genrelist, SetGenreList] = useState(["All Genre"]); // Added "All Genre" option
   const [currGenre, SetCurrGenre] = useState("All Genre");
 
   useEffect(() => {
+    // Get unique genres from watchlist
     let temp = watchlist.map((movieObj) => genreids[movieObj.genre_ids[0]]);
-    SetGenreList([...new Set(temp)]);
+    // Add "All Genre" to the start of the list
+    SetGenreList(["All Genre", ...new Set(temp)]);
   }, [watchlist]);
 
   const handleSearch = (e) => setSearch(e.target.value);
@@ -55,17 +57,17 @@ const WatchList = ({ watchlist, handleRemoveFromWatchlist }) => {
         </select>
       </div>
 
+      {/* Latest Movies Title */}
+      <h2 className="text-3xl font-thin text-left my-8 text-white">
+        <span className="font-extrabold text-indigo-500">|</span> Your Watchlist
+      </h2>
+      
       {/* Message if no results found */}
       {filteredMovies.length === 0 && (
         <p className="text-center text-xl text-gray-400 mt-6">
           No results found
         </p>
       )}
-
-      {/* Latest Movies Title */}
-      <h2 className="text-3xl font-thin text-left my-8 text-white">
-        <span className="font-extrabold text-indigo-500">|</span> Your Watchlist
-      </h2>
 
       {/* Movie Grid with Modern and Trendy Layout */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6 mt-6">
